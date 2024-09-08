@@ -13,7 +13,10 @@ import com.aza.crud.app.custom.exception.NullRecordException;
 import com.aza.crud.app.model.CloudVendor;
 import com.aza.crud.app.repository.CloudVendorRepositoryInterface;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class CloudVendorService implements CloudVendorServiceInterface {
 
 	@Autowired
