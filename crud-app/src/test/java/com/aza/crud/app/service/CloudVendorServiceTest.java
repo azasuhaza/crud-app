@@ -101,9 +101,7 @@ public class CloudVendorServiceTest {
 		mock(CloudVendor.class);
 		mock(CloudVendorRepositoryInterface.class);
 
-		List<CloudVendor> users = Arrays.asList(
-				new CloudVendor((long) 1, "MYDIN", "Jln Masjid India", "03-989002")
-        );
+		List<CloudVendor> users = new ArrayList<CloudVendor>(Collections.singleton(cloudVendor));
 		
 		when(repo.findAll()).thenReturn(users);
 		List<CloudVendor> result = svc.getAllVendor();
