@@ -2,6 +2,8 @@ package com.aza.crud.app.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import com.aza.crud.app.service.CloudVendorServiceInterface;
 @RestController
 @RequestMapping("/cloudvendor")
 public class CloudVendorAPIService {
+	
+	private static final Logger logInfo = LoggerFactory.getLogger(CloudVendorAPIService.class);
 
 	@Autowired
 	private CloudVendorServiceInterface svc;
@@ -33,12 +37,16 @@ public class CloudVendorAPIService {
 	@PostMapping("/create")
 	public ResponseEntity<CloudVendor> createNewVendor(@RequestBody CloudVendor vendors){
 		CloudVendor createdCloudVendor= svc.createVendor(vendors);
+		
+		logInfo.info("successfully created new vendor: " + createdCloudVendor.toString());
 		return new ResponseEntity<CloudVendor>(createdCloudVendor, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/delete/{vendorId}")
 	public ResponseEntity<Void> deleteVendorById (@PathVariable("vendorId") Long vendorIdl){
 		svc.deleteVendor(vendorIdl);
+		
+		logInfo.info("successfully delete one vendor: vendor ID=" + vendorIdl);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);	
 	}
 	

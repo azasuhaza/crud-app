@@ -62,7 +62,7 @@ public class CloudVendorServiceTest {
 		doNothing().when(repo).deleteById(cloudVendor.getId());  
 		svc.deleteVendor(1L);
 		
-		verify(repo, times(1)).deleteById((long) 1);	    
+		verify(repo, times(1)).deleteById((long) 1);
 	}
 	
 	@Test 
