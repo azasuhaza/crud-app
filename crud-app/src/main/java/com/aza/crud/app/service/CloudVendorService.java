@@ -3,6 +3,8 @@ package com.aza.crud.app.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,16 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class CloudVendorService implements CloudVendorServiceInterface {
-
+ 
+	private static final Logger log= LoggerFactory.getLogger(CloudVendorService.class);
+	
 	@Autowired
 	private CloudVendorRepositoryInterface repo;
 
 	@Override
 	public void deleteVendor(long vendorId) {
+		
+		log.debug("vendorID: " + vendorId);
 		
 		if(vendorId <=0) {
 			throw new EmptyInputException("601", "vendorId is not valid :deleteVendor() ");
@@ -44,6 +50,9 @@ public class CloudVendorService implements CloudVendorServiceInterface {
 	@Override
 	public CloudVendor updateVendor(long vendorId, CloudVendor vendor) {
 		
+		log.debug("vendorID: " + vendorId);
+		log.debug("vendor: " + vendor.toString());
+		
 		CloudVendor updatedVendor = null;
 		
 		if(vendorId <=0 || vendor == null) {
@@ -52,6 +61,7 @@ public class CloudVendorService implements CloudVendorServiceInterface {
 		
 		try {
 			updatedVendor = repo.findById(vendorId).get();
+			log.debug("updatedVendor: " + updatedVendor.toString());
 			updatedVendor.setVendorAddress(vendor.getVendorAddress());
 			updatedVendor.setVendorName(vendor.getVendorName());
 			updatedVendor.setVendorPhoneNumber(vendor.getVendorPhoneNumber());			
@@ -78,6 +88,7 @@ public class CloudVendorService implements CloudVendorServiceInterface {
 	@Override
 	public CloudVendor getVendor(long vendorId) {
 		
+		log.debug("vendorID: " + vendorId);
 		try {
 			return repo.findById(vendorId).get();
 			
@@ -97,6 +108,7 @@ public class CloudVendorService implements CloudVendorServiceInterface {
 			if(vendorList.isEmpty()) {
 				throw new EmptyInputException("612", "no records exist");
 			}
+			log.debug("vendorList: " + vendorList.toString());
 			return vendorList;
 		} catch(Exception e) {
 			throw new BusinessException("612", "error in service layer "+ e.getMessage());
@@ -107,6 +119,7 @@ public class CloudVendorService implements CloudVendorServiceInterface {
 	@Override
 	public CloudVendor createVendor(CloudVendor vendor) {
 		
+		log.debug("vendor: " + vendor.toString());
 		if(vendor.getVendorName().isEmpty() || vendor.getVendorName().length()==0 ) {
 			throw new EmptyInputException("613", "vendor name is not provided");
 		}
